@@ -4,7 +4,26 @@ This project implements a conversational AI voice agent designed specifically fo
 
 ## Architecture
 
-The agent's logic is built using LangGraph's `StateGraph`, defined primarily in [`src/agent/graph.ts`](src/agent/graph.ts).
+```mermaid
+graph TD
+    Start[__start__] --> WelcomeMessage[WELCOME_MESSAGE];
+    WelcomeMessage --> AudioOutput[AUDIO_OUTPUT];
+    AudioOutput -.-> AudioInput[AUDIO_INPUT];
+    AudioInput --> ParseIntent[PARSE_INTENT];
+    ParseIntent -.-> ConfirmOrder[CONFIRM_ORDER];
+    ParseIntent -.-> ManualOverride[MANUAL_OVERRIDE];
+    ParseIntent -.-> ItemSelection[ITEM_SELECTION];
+    ConfirmOrder --> AudioOutput;
+    ManualOverride --> End{__end__};
+    ItemSelection -.-> CheckInventory[CHECK_INVENTORY];
+    CheckInventory -.-> ItemSelection;
+    CheckInventory -.-> ModifyOrder[MODIFY_ORDER];
+    ModifyOrder -.-> CheckInventory;
+    ModifyOrder --> ReviewOrder[REVIEW_ORDER];
+    ReviewOrder -.-> Upsell[UPSELL];
+    ReviewOrder -.-> AudioOutput;
+    Upsell --> AudioOutput;
+```
 
 *   **State Management:** The conversation's state is tracked using [`AgentStateAnnotation`](src/agent/state.ts), which includes messages, the current draft order, database query results, and internal flow control flags. Configuration details like `businessName` or `language` are passed via [`ConfigurationAnnotation`](src/agent/state.ts).
 *   **Core Nodes:** The graph operates through distinct nodes, each representing a stage in the order process (constants defined in [`src/helpers/constants.ts`](src/helpers/constants.ts)):
@@ -28,7 +47,6 @@ The agent's logic is built using LangGraph's `StateGraph`, defined primarily in 
 *   **Persistence:** Conversation state checkpoints are managed using `MemorySaver` for short-term memory. (Note: This can be swapped with a persistent solution like a Postgres checkpointer if needed).
 *   **Database:** A SQLite database, managed via TypeORM ([`src/helpers/db.ts`](src/helpers/db.ts)), stores information about categories, products (menu items), modifiers, and finalized orders.
 
-![Agent Architecture Diagram](/assets/graph.png)
 
 ## Functionality Overview
 
