@@ -9,6 +9,7 @@ export enum Nodes {
   MODIFY_ORDER = "MODIFY_ORDER",
   CONFIRM_ORDER = "CONFIRM_ORDER",
   MANUAL_OVERRIDE = "MANUAL_OVERRIDE",
+  UPSELL = "UPSELL",
 }
 
 export const getWelcomeMessage = (businessName: string | undefined) => {

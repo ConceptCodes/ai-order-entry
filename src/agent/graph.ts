@@ -18,6 +18,7 @@ import { reviewOrderNode } from "../nodes/review-order";
 import { confirmOrderNode } from "../nodes/confirm-order";
 import { checkInventoryNode } from "../nodes/check-inventory";
 import { manualOverrideNode } from "../nodes/manual-override";
+import { upSellNode } from "../nodes/upsell";
 
 await initializeDatabase();
 
@@ -42,18 +43,21 @@ const workflow = new StateGraph(
   .addNode(Nodes.CHECK_INVENTORY, checkInventoryNode, {
     ends: [Nodes.ITEM_SELECTION, Nodes.MODIFY_ORDER],
   })
-  .addNode(Nodes.REVIEW_ORDER, reviewOrderNode)
+  .addNode(Nodes.REVIEW_ORDER, reviewOrderNode, {
+    ends: [Nodes.AUDIO_OUTPUT, Nodes.UPSELL]
+  })
   .addNode(Nodes.MODIFY_ORDER, modifyOrderNode, {
     ends: [Nodes.CHECK_INVENTORY, Nodes.REVIEW_ORDER],
   })
   .addNode(Nodes.CONFIRM_ORDER, confirmOrderNode)
-  .addNode(Nodes.MANUAL_OVERRIDE, manualOverrideNode);
+  .addNode(Nodes.MANUAL_OVERRIDE, manualOverrideNode)
+  .addNode(Nodes.UPSELL, upSellNode)
 
 workflow.addEdge(START, Nodes.WELCOME_MESSAGE);
 workflow.addEdge(Nodes.WELCOME_MESSAGE, Nodes.AUDIO_OUTPUT);
 workflow.addEdge(Nodes.AUDIO_INPUT, Nodes.PARSE_INTENT);
 workflow.addEdge(Nodes.CONFIRM_ORDER, Nodes.AUDIO_OUTPUT);
-workflow.addEdge(Nodes.REVIEW_ORDER, Nodes.AUDIO_OUTPUT);
+workflow.addEdge(Nodes.UPSELL, Nodes.AUDIO_OUTPUT);
 workflow.addEdge(Nodes.MANUAL_OVERRIDE, END);
 
 export const graph = workflow.compile({
