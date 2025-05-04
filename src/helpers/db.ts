@@ -32,15 +32,15 @@ export class Category {
   products!: Product[];
 }
 
-@Entity() 
+@Entity()
 export class Product {
-  @PrimaryGeneratedColumn() 
+  @PrimaryGeneratedColumn()
   productId!: number;
 
-  @Column("varchar", { length: 255 }) 
+  @Column("varchar", { length: 255 })
   name!: string;
 
-  @Column("text", { nullable: true }) 
+  @Column("text", { nullable: true })
   description?: string;
 
   @Column("decimal", { precision: 10, scale: 2 })
@@ -48,7 +48,7 @@ export class Product {
 
   @ManyToOne(() => Category, (category) => category.products, {
     onDelete: "SET NULL",
-    nullable: true, 
+    nullable: true,
   })
   @JoinColumn({ name: "category_id" })
   category?: Category;
@@ -59,6 +59,13 @@ export class Product {
   @ManyToMany(() => ModifierGroup, (group) => group.products)
   @JoinTable()
   modifierGroups!: ModifierGroup[];
+
+  @Column("boolean", { default: true })
+  isActive!: boolean;
+
+  @Column("int", { nullable: true })
+  @Index({ unique: true })
+  productNumber!: number;
 }
 
 @Entity()
@@ -144,8 +151,8 @@ export class Order {
   orderId!: number;
 
   @CreateDateColumn({
-    type: "datetime", // Change from "timestamp" to "datetime"
-    default: () => "CURRENT_TIMESTAMP", // SQLite understands CURRENT_TIMESTAMP
+    type: "datetime",
+    default: () => "CURRENT_TIMESTAMP",
   })
   orderDate!: Date;
 
@@ -172,7 +179,7 @@ export class Order {
   statusHistory!: StatusHistory[];
 
   @UpdateDateColumn({
-    type: "datetime", // Change from "timestamp" to "datetime"
+    type: "datetime",
     default: () => "CURRENT_TIMESTAMP",
     onUpdate: "CURRENT_TIMESTAMP",
   })
@@ -259,7 +266,7 @@ export class StatusHistory {
   orderStatusId!: number;
 
   @CreateDateColumn({
-    type: "datetime", // Change from "timestamp" to "datetime"
+    type: "datetime",
     default: () => "CURRENT_TIMESTAMP",
   })
   changedAt!: Date;

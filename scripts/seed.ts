@@ -169,6 +169,7 @@ const seedDatabase = async () => {
         description: "Beef patty, lettuce, tomato, onion, pickles",
         basePrice: 8.99,
         modifierGroups: [modifierGroups[0], modifierGroups[1]],
+        productNumber: 1,
       },
       {
         category: categories[0],
@@ -176,6 +177,7 @@ const seedDatabase = async () => {
         description: "Beef patty with cheese",
         basePrice: 9.49,
         modifierGroups: [modifierGroups[0], modifierGroups[1]],
+        productNumber: 2,
       },
       {
         category: categories[0],
@@ -183,6 +185,7 @@ const seedDatabase = async () => {
         description: "Beef patty, bacon, cheese",
         basePrice: 10.99,
         modifierGroups: [modifierGroups[0], modifierGroups[1]],
+        productNumber: 3,
       },
       {
         category: categories[1],
@@ -190,6 +193,7 @@ const seedDatabase = async () => {
         description: "Crispy golden fries",
         basePrice: 3.49,
         modifierGroups: [modifierGroups[3]],
+        productNumber: 4,
       },
       {
         category: categories[1],
@@ -197,6 +201,7 @@ const seedDatabase = async () => {
         description: "Battered onion rings",
         basePrice: 4.49,
         modifierGroups: [modifierGroups[3]],
+        productNumber: 5,
       },
       {
         category: categories[2],

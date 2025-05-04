@@ -1,7 +1,7 @@
 import { BaseMessage } from "@langchain/core/messages";
 import { Annotation } from "@langchain/langgraph";
 
-import type { DraftOrder, Language } from "../helpers/types";
+import type { Currency, DraftOrder, Language } from "../helpers/types";
 
 export const ConfigurationAnnotation = Annotation.Root({
   language: Annotation<Language>({
@@ -20,6 +20,10 @@ export const ConfigurationAnnotation = Annotation.Root({
     reducer: (a, b) => b ?? a,
     default: () => false,
   }),
+  currency: Annotation<Currency>({
+    reducer: (a, b) => b ?? a,
+    default: () => "USD",
+  }),
 });
 
 export const OutputStateAnnotation = Annotation.Root({
@@ -28,6 +32,10 @@ export const OutputStateAnnotation = Annotation.Root({
     default: () => ({
       orderItems: [],
     }),
+  }),
+  manualOverride: Annotation<boolean>({
+    reducer: (a, b) => b ?? a,
+    default: () => false,
   }),
 });
 
@@ -47,10 +55,6 @@ export const AgentStateAnnotation = Annotation.Root({
     default: () => [],
   }),
   completed: Annotation<boolean>({
-    reducer: (a, b) => b ?? a,
-    default: () => false,
-  }),
-  manualOverride: Annotation<boolean>({
     reducer: (a, b) => b ?? a,
     default: () => false,
   }),

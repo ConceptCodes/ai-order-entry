@@ -19,9 +19,10 @@ export const reviewOrderNode = async (
 ) => {
   const { draft } = state;
   const upSellEnabled = config.configurable?.upSellEnabled ?? false;
+  const currency = config.configurable?.currency ?? "USD";
 
   const structuredLLM = llm.withStructuredOutput(outputSchema);
-  const prompt = reviewOrderPrompt(draft, upSellEnabled);
+  const prompt = reviewOrderPrompt(draft, upSellEnabled, currency);
   const { review } = await structuredLLM.invoke([new HumanMessage(prompt)]);
 
   return {

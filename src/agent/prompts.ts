@@ -12,8 +12,10 @@ TASK: decide which single action the system should take **right now**.
 chat history:
 ${chatHistory.join("\n")}
 
-
 options: ${JSON.stringify(options)}
+
+Rules:
+- If the order is ridiculous, then route to "manual override".
 
 User says:
 "${message}"
@@ -25,10 +27,11 @@ retrieves menu items the user asked for.  Respond with that SQL ONLY.
 
 Guidelines
 • Never use SELECT *.  List the columns you need.
-• Column aliases must match: product_id, name, base_price.
+• Column aliases must match: product_id, name, base_price, product_number.
 • Use LIKE for fuzzy name matching.
 • Ignore price filters unless the user mentions them.
 • Quantity is handled later—don’t include it here.
+• Product names or numbers can be used to filter the results.
 
 Schema for reference:
 ${tableDefinition}
@@ -57,19 +60,25 @@ ${JSON.stringify(sqlResult)}
 
 export const reviewOrderPrompt = (
   draft: DraftOrder,
-  upSellEnabled: boolean
+  upSellEnabled: boolean,
+  currency: string
 ) => `
 You are “Order Reviewer”.  Turn the draft order into a friendly summary for
 the diner and finish with a yes/no question asking for confirmation or
 changes.
 
+Currency: ${currency}
+
 ${upSellEnabled && "If you can, suggest an up-sell."}
+
+Constraints
+- Don't be overly verbose, this is a fast casual restaurant.
 
 Draft order:
 ${JSON.stringify(draft, null, 2)}
 
 Rules
-- Must return final price and subtotal.
+- Must return final price.
 `;
 
 export const checkModifierPrompt = (draft: DraftOrder, userRequest: string) => `
@@ -94,7 +103,7 @@ export const modifyOrderPrompt = (
   modifiers: any[]
 ) => `
 You are “Order Modifier”.  Modify the draft order based on the user’s
-request.
+request. Ensure you only modify the items that are mentioned in the request.
 
 Draft order:
 ${JSON.stringify(draft, null, 2)}

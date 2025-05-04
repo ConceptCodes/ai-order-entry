@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export type Language = "en" | "es" | "fr" | "de";
+export type Currency = "USD" | "EUR";
 
 export const draftOrderItemModifierSchema = z.object({
   modifierId: z.number().int(),
