@@ -1,0 +1,28 @@
+{
+  "name": "ai-order-entry",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "seed": "bun run scripts/seed.ts",
+    "studio": "bunx @langchain/langgraph-cli@latest dev"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/play-sound": "^1.1.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.51",
+    "@langchain/langgraph": "^0.2.67",
+    "@langchain/ollama": "^0.2.0",
+    "@langchain/openai": "^0.5.10",
+    "node-record-lpcm16": "^1.0.1",
+    "play-sound": "^1.1.6",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.22",
+    "typeorm-naming-strategies": "^4.1.0"
+  }
+}

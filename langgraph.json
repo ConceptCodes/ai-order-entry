@@ -1,0 +1,11 @@
+{
+  "node_version": "20",
+  "dockerfile_lines": [],
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "order-entry": "./src/agent/graph.ts:graph"
+  },
+  "env": ".env"
+}
