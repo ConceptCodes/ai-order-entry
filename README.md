@@ -85,7 +85,11 @@ graph TD
     ````bash
     bun install
     ````
-2.  **Seed Database:** (Run this once to populate the menu)
+2. **Environment Variables:** Create a `.env` file in the root directory and set the required environment variables. You can use the `.env.example` file as a reference.
+    ````bash
+    cp .env.example .env
+    ````
+3.  **Seed Database:** (Run this once to populate the menu)
     ````bash
     bun run seed
     ````
@@ -96,5 +100,5 @@ graph TD
     ````bash
     bun run studio 
     ````
-
+This will start LangGraph studio which will allow you to test the agent in a web interface.
 
