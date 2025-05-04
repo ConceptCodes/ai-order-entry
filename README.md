@@ -43,7 +43,7 @@ The agent's logic is built using LangGraph's `StateGraph`, defined primarily in 
     *   **Confirms Order:** Finalizes the transaction upon user confirmation ([`confirmOrderNode`](nodes/confirm-order.ts)).
     *   Provides voice responses throughout the process ([`audioOutputNode`](nodes/audio-output.ts)).
 4.  **Termination:** The conversation concludes upon successful order confirmation or user exit.
-5.  **Language Support:** Defaults to English (`en`). The language can be configured via [`ConfigurationAnnotation`](agent/state.ts).
+5.  **Language Support:** Defaults to English (`en`). But Spanish, French, and German are also supported. 
 
 ## Core Components
 
@@ -57,8 +57,8 @@ The agent's logic is built using LangGraph's `StateGraph`, defined primarily in 
 
 ## Prerequisites
 
-*   Node.js and Bun installed.
-*   Environment Variables: Ensure necessary environment variables are set (e.g., API keys for the Language Model, Speech-to-Text, or Text-to-Speech services if used). Create a `.env` file if needed.
+*   Bun installed.
+*   Environment Variables: Ensure necessary environment variables are set.
 *   Database seeded with initial menu data.
 
 ## Setup
@@ -69,18 +69,14 @@ The agent's logic is built using LangGraph's `StateGraph`, defined primarily in 
     ````
 2.  **Seed Database:** (Run this once to populate the menu)
     ````bash
-    bun run scripts/seed.ts
+    bun run seed
     ````
 
 ## Usage
 
-*(Add instructions here on how to start and interact with the voice agent. Example below assumes a start script)*
-
 1.  **Run the Agent:**
     ````bash
-    bun run start 
+    bun run studio 
     ````
-2.  Interact with the agent via voice input/output according to your setup.
 
-*(Consider adding sections on Configuration, Testing, or Deployment if applicable)*
 

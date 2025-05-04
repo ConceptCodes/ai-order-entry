@@ -53,6 +53,7 @@ workflow.addEdge(START, Nodes.WELCOME_MESSAGE);
 workflow.addEdge(Nodes.WELCOME_MESSAGE, Nodes.AUDIO_OUTPUT);
 workflow.addEdge(Nodes.AUDIO_INPUT, Nodes.PARSE_INTENT);
 workflow.addEdge(Nodes.CONFIRM_ORDER, Nodes.AUDIO_OUTPUT);
+workflow.addEdge(Nodes.REVIEW_ORDER, Nodes.AUDIO_OUTPUT);
 workflow.addEdge(Nodes.MANUAL_OVERRIDE, END);
 
 export const graph = workflow.compile({

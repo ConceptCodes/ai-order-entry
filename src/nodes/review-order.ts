@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Command } from "@langchain/langgraph";
 import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
 
@@ -9,10 +8,9 @@ import type {
 } from "../agent/state";
 import { llm } from "../helpers/llm";
 import { reviewOrderPrompt } from "../agent/prompts";
-import { Nodes } from "../helpers/constants";
 
 const outputSchema = z.object({
-  statement: z.string(),
+  review: z.string(),
 });
 
 export const reviewOrderNode = async (
@@ -24,12 +22,9 @@ export const reviewOrderNode = async (
 
   const structuredLLM = llm.withStructuredOutput(outputSchema);
   const prompt = reviewOrderPrompt(draft, upSellEnabled);
-  const { statement } = await structuredLLM.invoke([new HumanMessage(prompt)]);
+  const { review } = await structuredLLM.invoke([new HumanMessage(prompt)]);
 
-  return new Command({
-    goto: Nodes.AUDIO_OUTPUT,
-    update: {
-      messages: [new AIMessage(statement)],
-    },
-  });
+  return {
+    messages: [new AIMessage(review)],
+  };
 };
