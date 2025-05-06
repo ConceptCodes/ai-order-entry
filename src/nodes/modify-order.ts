@@ -15,16 +15,6 @@ export const modifyOrderNode = async (
 
   let prompt = checkModifierPrompt(draft, lastMessage?.content as string);
 
-  if (queryResults.length === 0) {
-    return new Command({
-      goto: Nodes.CHECK_INVENTORY,
-      update: {
-        prev: Nodes.MODIFY_ORDER,
-        messages: [new HumanMessage(prompt)],
-      },
-    });
-  }
-
   prompt = modifyOrderPrompt(
     draft,
     lastMessage?.content as string,

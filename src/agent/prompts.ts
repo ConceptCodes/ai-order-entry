@@ -28,17 +28,13 @@ Analyze the user's latest message within the context of the chat history and det
 Respond ONLY with the chosen action string from the 'Available System Actions' list. Do not add explanations.
 `;
 
-export const checkInventoryPrompt = (
-  tableDefinition: string,
-  userRequest: string
-) => `
+export const checkInventoryPrompt = (tableDefinition: string) => `
 You are the "Menu Database Querier".
 
 **Your Task:**
 Generate a single, efficient SQLite SQL query to retrieve menu items potentially matching the user's request.
 
 **Inputs:**
-* **User Request:** "${userRequest}"
 * **Database Schema:**
     ${tableDefinition}
 
@@ -62,8 +58,7 @@ Respond ONLY with the generated SQLite SQL query string. Do not include explanat
 
 export const convertSqlResultToDraftOrderPrompt = (
   sqlResult: any[],
-  userRequest: string,
-  expectedDraftOrderStructure: string
+  userRequest: string
 ) => `
 You are the "Draft Order Builder".
 
@@ -74,8 +69,6 @@ Interpret the provided SQL query results and the user's original request to crea
 * **User's Original Request:** "${userRequest}"
 * **SQL Query Results (Potential Matches):**
     ${JSON.stringify(sqlResult, null, 2)}
-* **Expected JSON Structure (DraftOrder):**
-    ${expectedDraftOrderStructure} // e.g., "{ items: [{ product_id: string, name: string, quantity: number, unitPrice: number, modifiers: any[] }], subtotal: number }"
 
 **Conversion Rules:**
 1.  **Matching:** Correlate items in the \`sqlResult\` with nouns/items mentioned in the \`userRequest\`.
@@ -118,11 +111,7 @@ Present the current draft order to the user in a concise, friendly summary. Conc
 Generate the review message as a single string.
 `;
 
-export const checkModifierPrompt = (
-  draft: DraftOrder,
-  userRequest: string,
-  modifierTableDefinition: string
-) => `
+export const checkModifierPrompt = (draft: DraftOrder, userRequest: string) => `
 You are the "Modifier Database Querier".
 
 **Your Task:**
@@ -132,8 +121,6 @@ Generate a single, efficient SQLite SQL query to find *available* modifiers that
 * **Current Draft Order:**
     ${JSON.stringify(draft, null, 2)}
 * **User's Modification Request:** "${userRequest}"
-* **Modifier-Related Database Schema:**
-    ${modifierTableDefinition} // e.g., definition of 'modifiers' table and 'product_modifiers' join table
 
 **Query Guidelines:**
 1.  **Relevance:** Filter modifiers based on keywords in the \`userRequest\` (e.g., if user says "add extra cheese", query for modifiers with \`name LIKE '%cheese%'\`).
