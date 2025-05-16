@@ -6,23 +6,26 @@ This project implements a conversational AI voice agent designed specifically fo
 
 ```mermaid
 graph TD
-    Start[__start__] --> WelcomeMessage[WELCOME_MESSAGE];
-    WelcomeMessage --> AudioOutput[AUDIO_OUTPUT];
-    AudioOutput -.-> AudioInput[AUDIO_INPUT];
-    AudioInput --> ParseIntent[PARSE_INTENT];
-    ParseIntent -.-> ConfirmOrder[CONFIRM_ORDER];
-    ParseIntent -.-> ManualOverride[MANUAL_OVERRIDE];
-    ParseIntent -.-> ItemSelection[ITEM_SELECTION];
-    ConfirmOrder --> AudioOutput;
-    ManualOverride --> End{__end__};
-    ItemSelection -.-> CheckInventory[CHECK_INVENTORY];
-    CheckInventory -.-> ItemSelection;
-    CheckInventory -.-> ModifyOrder[MODIFY_ORDER];
-    ModifyOrder -.-> CheckInventory;
-    ModifyOrder --> ReviewOrder[REVIEW_ORDER];
-    ReviewOrder -.-> Upsell[UPSELL];
-    ReviewOrder -.-> AudioOutput;
-    Upsell --> AudioOutput;
+  Start[__start__] --> WelcomeMessage[WELCOME_MESSAGE];
+  WelcomeMessage --> AudioOutput[AUDIO_OUTPUT];
+  AudioOutput -.-> AudioInput[AUDIO_INPUT];
+  AudioInput --> ParseIntent[PARSE_INTENT];
+  ParseIntent -.-> ConfirmOrder[CONFIRM_ORDER];
+  ParseIntent -.-> ManualOverride[MANUAL_OVERRIDE];
+  ParseIntent -.-> ItemSelection[ITEM_SELECTION];
+  ParseIntent -.-> ModifyOrder[MODIFY_ORDER];
+  ConfirmOrder --> AudioOutput;
+  ManualOverride --> End{__end__};
+  ItemSelection -.-> CheckInventory[CHECK_INVENTORY];
+  ItemSelection -.-> ReviewOrder[REVIEW_ORDER];
+  CheckInventory -.-> ItemSelection;
+  CheckInventory -.-> ModifyOrder[MODIFY_ORDER];
+  ModifyOrder -.-> CheckInventory;
+  ModifyOrder -.-> ReviewOrder[REVIEW_ORDER];
+  ReviewOrder -.-> Upsell[UPSELL];
+  ReviewOrder -.-> AudioOutput;
+  Upsell --> AudioOutput;
+  AudioOutput -.->  End{__end__};
 ```
 
 *   **State Management:** The conversation's state is tracked using [`AgentStateAnnotation`](src/agent/state.ts), which includes messages, the current draft order, database query results, and internal flow control flags. Configuration details like `businessName` or `language` are passed via [`ConfigurationAnnotation`](src/agent/state.ts).
@@ -89,7 +92,7 @@ graph TD
     ````bash
     cp .env.example .env
     ````
-3.  **Seed Database:** (Run this once to populate the menu)
+3.  **Seed Database:** (Run this once to populate the db)
     ````bash
     bun run seed
     ````
