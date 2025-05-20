@@ -8,7 +8,7 @@ import "dotenv/config";
 // });
 
 export const llm = new ChatOpenAI({
-  modelName: "gpt-4o-mini",
+  modelName: "gpt-4o",
   temperature: 0,
   openAIApiKey: process.env.OPENAI_API_KEY,
 });

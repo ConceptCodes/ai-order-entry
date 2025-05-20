@@ -64,7 +64,7 @@ graph TD
     *   **Confirms Order:** Finalizes the transaction upon user confirmation ([`confirmOrderNode`](src/nodes/confirm-order.ts)).
     *   Provides voice responses throughout the process ([`audioOutputNode`](src/nodes/audio-output.ts)).
 4.  **Termination:** The conversation concludes upon successful order confirmation or user exit.
-5.  **Language Support:** Defaults to English (`en`). But Spanish, French, and German are also supported. 
+5.  **Language Support:** Defaults to English (`en`). But **Spanish**, **French**, and **German** are also supported. 
 
 ## Core Components
 

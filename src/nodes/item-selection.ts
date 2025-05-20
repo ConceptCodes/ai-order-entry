@@ -13,6 +13,15 @@ export const itemSelectionNode = async (
   const { messages, queryResults } = state;
   const lastMessage = messages.at(-1);
 
+  if (queryResults.length === 0) {
+    return new Command({
+      goto: Nodes.CHECK_INVENTORY,
+      update: {
+        prev: Nodes.ITEM_SELECTION
+      }
+    });
+  }
+
   const prompt = convertSqlResultToDraftOrderPrompt(
     queryResults,
     lastMessage?.text!

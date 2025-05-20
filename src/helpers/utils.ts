@@ -70,7 +70,6 @@ export const playAudio = async (audioBuffer: Buffer): Promise<void> => {
 };
 
 export const listenAndTranscribe = async (
-  language: string = "en",
   sampleRate: number = 16000
 ): Promise<string> => {
   console.log(`Starting recording...`);
@@ -124,10 +123,9 @@ export const listenAndTranscribe = async (
 
     await new Promise((resolve) => fileStream.on("close", resolve));
 
-    const response = await openai.audio.transcriptions.create({
+    const response = await openai.audio.translations.create({
       file: fs.createReadStream(tempFilePath),
-      model: "gpt-4o-mini-transcribe",
-      language,
+      model: "whisper-1",
     });
 
     console.log("Transcription successful.");
